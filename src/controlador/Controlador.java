@@ -9,6 +9,7 @@ public class Controlador {
 	public void start() {
 		vista = new Vista();
 		vista.login();
+		/**/
 	}
 
 }
