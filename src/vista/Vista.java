@@ -1,11 +1,18 @@
 package vista;
 
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -13,7 +20,9 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import model.Administrador;
+import model.Aula;
 import model.Fecha;
+import model.Laboratorio;
 import model.Pair;
 import model.Usuario;
 
@@ -72,7 +81,141 @@ public class Vista {
 			login();
 		}
 	}
-
+	
+	public void reservarLab(){
+		JPanel panel = new JPanel(new FlowLayout());
+		JComboBox labs = new JComboBox();
+		
+		String add;
+		for(Laboratorio lab : ListaLaboratorios){
+			//Como accedemos a la lista de laboratorios
+			if (lab.getPair().getSecond()) {
+			add = lab.getId() + " (" + lab.getCapacidad() + ")";
+			labs.addItem(add);
+			}
+		}
+		panel.add(labs);
+		
+		JComboBox dias = new JComboBox();
+		Calendar date = Calendar.getInstance();
+		for(int i = 0; i < 5; i++){
+			@SuppressWarnings("deprecation")
+			int dia = date.get(Calendar.DAY_OF_MONTH) + i;
+			dias.addItem(dia);
+		}		
+		panel.add(dias);//Este va a ser el de los días
+		
+		JComboBox horas = new JComboBox();
+		String [] horasLista = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", 
+						  "17:00", "18:00", "19:00", "20:00", "21:00"};
+		
+	
+		
+		
+		/*for(int i = 0; i < 14; i++){//La cantidad de horas desde las 9:00 hasta las 22:00
+			//No se me ocurre cómo hacerlo. La idea es coger el día que esté seleccionado y si la hora que toque para 
+			//ese día para la correspondiente vuelta del for está libre entonces la añadimos a la ComboBox
+		}*/
+		
+		JButton set = new JButton("Set");
+		
+		set.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				
+				Laboratorio lab = (Laboratorio) labs.getSelectedItem();
+				String fecha = (String) horas.getSelectedItem();
+				
+				/*Preguntar al usuario que confirme con un Jdialog con una funcion externa
+				que llevara el boton okey, y boton de cancelar
+					JButton cancel = new JButton("Cancel");
+					cancel.addActionListener(new ActionListener(){
+					public void actionPerformed (ActionEvent e) {
+	
+					panel.add(cancel); */
+		
+				/*Llamar al controlador para que reserve el aula con los datos de las combo box;	*/	
+			}
+				
+		});
+		
+		panel.add(set);
+		
+		
+		
+		final JDialog frame = new JDialog(this.ventana, "Reservar Laboratorio", true);
+		frame.getContentPane().add(panel);//Ahora me queda crear ese JPanel
+		frame.pack();
+		frame.setVisible(true);
+		
+		//Me queda también hacer las funciones que hagan las cosas correspondientes a los clics
+	}
+	
+	public void reservarAula(){
+		JPanel panel = new JPanel(new FlowLayout());
+		JComboBox aulas = new JComboBox();
+		
+		String add;
+		for(Laboratorio aula : ListaAulas){
+			//Como accedemos a la lista de laboratorios
+			if (aula.getPair().getSecond()) {
+			add = aula.getId() + " (" + aula.getCapacidad() + ")";
+			aulas.addItem(add);
+			}
+		}
+		panel.add(aulas);
+		
+		JComboBox dias = new JComboBox();
+		Calendar date = Calendar.getInstance();
+		for(int i = 0; i < 5; i++){
+			int dia = date.get(Calendar.DAY_OF_MONTH) + i;
+			dias.addItem(dia);
+		}		
+		panel.add(dias);//Este va a ser el de los días
+		
+		JComboBox horas = new JComboBox();
+		String [] horasLista = {"09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", 
+						  "17:00", "18:00", "19:00", "20:00", "21:00"};
+		
+	
+		
+		
+		/*for(int i = 0; i < 14; i++){//La cantidad de horas desde las 9:00 hasta las 22:00
+			//No se me ocurre cómo hacerlo. La idea es coger el día que esté seleccionado y si la hora que toque para 
+			//ese día para la correspondiente vuelta del for está libre entonces la añadimos a la ComboBox
+		}*/
+		
+		JButton set = new JButton("Set");
+		
+		set.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				
+				Aula aula = (Aula) aulas.getSelectedItem();
+				String fecha = (String) horas.getSelectedItem();
+				
+				/*Preguntar al usuario que confirme con un Jdialog con una funcion externa
+				que llevara el boton okey, y boton de cancelar
+					JButton cancel = new JButton("Cancel");
+					cancel.addActionListener(new ActionListener(){
+					public void actionPerformed (ActionEvent e) {
+	
+					panel.add(cancel); */
+		
+				/*Llamar al controlador para que reserve el aula con los datos de las combo box;	*/	
+			}
+				
+		});
+		
+		panel.add(set);
+		
+		
+		
+		final JDialog frame = new JDialog(this.ventana, "Reservar Aula", true);
+		frame.getContentPane().add(panel);//Ahora me queda crear ese JPanel
+		frame.pack();
+		frame.setVisible(true);
+		
+		//Me queda también hacer las funciones que hagan las cosas correspondientes a los clics
+	}
 	private void menu() {
 		if(user instanceof Administrador){ menuAdmin();}
 		else{
