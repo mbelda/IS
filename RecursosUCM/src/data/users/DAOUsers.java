@@ -24,7 +24,7 @@ public class DAOUsers {
 
 	public User getUserOfLastIndexLooked() {
 		return this.users.get(this.lastIndexLooked);
-	}
+	} 
 
 	public DAOUsersMemento requestMemento() {
 		return new DAOUsersMemento(this.lastIndexLooked);
@@ -32,5 +32,13 @@ public class DAOUsers {
 
 	public void restoreToMemento(DAOUsersMemento memento) {
 		this.lastIndexLooked = memento.getState();
+	}
+	
+	public User get(String id){	
+		for (int i = 0; i < users.size(); i++) {
+			if (users.get(i).getId().equals(id))
+				return users.get(i);
+		}
+		return null;		
 	}
 }
