@@ -90,7 +90,6 @@ public class View {
 		return new ExtractMaterialButtonListener() {
 			public void extractMaterialButtonClicked() {
 				controller.extractMaterial();
-				System.out.println("material extraido...");
 			}
 		};
 	}
