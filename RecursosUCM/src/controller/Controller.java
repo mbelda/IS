@@ -53,7 +53,21 @@ public class Controller {
 		DAOUsersMemento daoUsersMemento = daoUsers.requestMemento();
 		daoUsers.restoreToMemento(daoUsersMemento);
 		User user = daoUsers.getUserOfLastIndexLooked();
-		//chequear si el usuario tiene elementos prestados
+		
+		if(user.hasBorrowedMaterials()){
+			System.out.println("ID del material a devolver: ");
+			String idMaterial = in.next();
+			while(!user.hasMaterial(idMaterial)){
+				System.err.println("material not found");
+				System.out.println("ID del material a devolver: ");
+				idMaterial = in.next();
+			}
+			user.deleteLastIndexLookedBorrowedMaterial();
+			daoMaterial.getMaterial(idMaterial).setBorrowed(false);
+			System.out.println("everything is ok...");
+		} else {
+			System.err.println("El usuario no se corresponde con el material");
+		}
 	}
 
 	public void extractMaterial() {
@@ -64,6 +78,7 @@ public class Controller {
 			if(!mat.isBorrowed()){
 				user.addBorrowedMaterial(mat);
 				mat.setBorrowed(true);
+				System.out.println("everything is ok...");
 				/*TODO memento del material*/
 			} else {
 				System.err.println(mat.getId() + " it's allready borrowed.");
@@ -80,11 +95,11 @@ public class Controller {
 	 */
 	private Material getExistentMaterial(){
 		String idMat;
-		System.out.println("Nombre del usuario: ");
+		System.out.println("ID del material: ");
 		idMat = in.next();
 		while(!daoMaterial.exists(idMat)){
-			System.err.println("username not found");
-			System.out.println("Nombre del usuario: ");
+			System.err.println("material not found");
+			System.out.println("ID del material: ");
 			idMat = in.next();
 		}
 		return daoMaterial.getMaterial(idMat);	

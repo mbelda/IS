@@ -10,6 +10,9 @@ import view.View;
 
 public class Main {
 	
+	/*MEMENTO PARA LOGIN
+	 * FACTORIA ABSTRACTA CON SINGLETON PARA DAOS*/
+	
 	private static List<User> users;
 	private static List<Material> materials;
 	
@@ -23,7 +26,7 @@ public class Main {
 		users.add(new User("Javi", "pqr", false));
 	}
 	
-	private static void iniMaterials() {
+	private static void initMaterials() {
 		materials = new ArrayList<Material>();
 		materials.add(new Material("Computer1"));
 		materials.add(new Material("Computer2"));
@@ -35,7 +38,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		initUsers();
-		iniMaterials();
+		initMaterials();
 		Controller controller = new Controller(users, materials);
 		View vista = new View(controller);
 	}
