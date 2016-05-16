@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import controller.Controller;
+import model.material.Material;
 import model.users.User;
 import view.View;
 
 public class Main {
 	
 	private static List<User> users;
+	private static List<Material> materials;
 	
 	private static void initUsers(){
 		users = new ArrayList<User>();
@@ -21,9 +23,20 @@ public class Main {
 		users.add(new User("Javi", "pqr", false));
 	}
 	
+	private static void iniMaterials() {
+		materials = new ArrayList<Material>();
+		materials.add(new Material("Computer1"));
+		materials.add(new Material("Computer2"));
+		materials.add(new Material("Computer3"));
+		materials.add(new Material("Computer4"));
+		materials.add(new Material("Computer5"));
+		materials.add(new Material("Computer6"));
+	}
+	
 	public static void main(String[] args) {
 		initUsers();
-		Controller controller = new Controller(users);
+		iniMaterials();
+		Controller controller = new Controller(users, materials);
 		View vista = new View(controller);
 	}
 }
