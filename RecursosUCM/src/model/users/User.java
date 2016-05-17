@@ -16,14 +16,20 @@ public class User {
 	private static final int MAX_MATERIALS = 10;
 	private int lastIndexLooked;
 	private Penalization penalization;
+	private boolean isPenalized;
 
 	public User(String id, String password, boolean isAdmin) {
 		this.id = id;
 		this.password = password;
 		this.isAdmin = isAdmin;
+		this.isPenalized = false;
 		penalization = null;
 		this.borrowedMaterials = new ArrayList<Material>();
 		this.lastIndexLooked = 0;
+	}
+
+	public List<Material> getBorrowedMaterials() {
+		return borrowedMaterials; 
 	}
 
 	public boolean hasBorrowedMaterials() {
@@ -76,5 +82,21 @@ public class User {
 
 	public void setPenalization(Penalization p) {
 		this.penalization = p;
+	}
+	
+	@Deprecated
+	/**
+	 * DO NOT TOUCH
+	 */
+	public void setPenalizedDebugMode(boolean penalized) {
+		this.isPenalized = penalized;
+	}
+
+	@Deprecated
+	/**
+	 * DO NOT TOUCH
+	 */
+	public boolean hasAllMaterialsDebugMode() {
+		return true;
 	}
 }

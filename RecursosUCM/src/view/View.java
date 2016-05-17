@@ -1,8 +1,9 @@
 package view;
 
 import java.awt.EventQueue;
+import java.util.List;
 
-import controller.Controller;
+import model.material.Material;
 import model.users.User;
 import view.admin.AdminViewPanel.ExtractMaterialButtonListener;
 import view.admin.AdminViewPanel.PenalizeButtonListener;
@@ -11,8 +12,11 @@ import view.admin.AdminViewPanel.ReserveLaboratoryButtonListener;
 import view.admin.AdminViewPanel.ReturnMaterialButtonListener;
 import view.login.LoginPanel.LoginButtonListener;
 import view.normal.CheckMaterialPanel.CheckMaterialButtonListener;
+import controller.Controller;
 
 public class View {
+
+	private User user = null;
 	private GUI gui;
 	Controller controller;
 
@@ -29,8 +33,7 @@ public class View {
 	private LoginButtonListener getLoginButtonListener() {
 		return new LoginButtonListener() {
 			public void loginButtonClicked() {
-				User user = controller.login(gui.getUsername(),
-						gui.getPassword());
+				user = controller.login(gui.getUsername(), gui.getPassword());
 				if (user != null) {
 					if (user.isAdmin()) {
 						setAdminView(user, getPenalizeButtonListener(),
@@ -73,7 +76,15 @@ public class View {
 	private CheckMaterialButtonListener getCheckMaterialButtonListener() {
 		return new CheckMaterialButtonListener() {
 			public void materialButtonClicked() {
-				System.out.println("lista de material...");
+				List<Material> material = controller.checkMaterial(user);
+				System.out.println("----Material Prestado----");
+				if (material.size() != 0) {
+					for (int i = 0; i < material.size(); i++) {
+						System.out.println((i+1) +". " + material.get(i));
+					}
+				} else
+					System.out.println("Nada prestado");
+				System.out.println("-------------------------");
 			}
 		};
 	}

@@ -84,14 +84,15 @@ public class Controller {
 				} else {
 					System.err.println(mat.getId() + " it's allready borrowed.");
 				}
-			
+	
 			} else {
 				System.err.println(user.getId()
 						+ " has reached the maximum materials" + " he can borrow.");
 			}
 		}
-		else {System.err.println(user.getId()
-				+ " is penalized.");}
+		else{System.err.println(user.getId()
+				+ " is penalized.");
+		}
 	}
 
 	public void penalize() {
@@ -130,7 +131,71 @@ public class Controller {
 			System.out.println("Error, el usuario ya esta penalizado");
 		}
 	}
+	
+	public List<Material> checkMaterial(User user) {
+		return user.getBorrowedMaterials();
+	}
+	
+	@Deprecated
+	/**
+	 * ONLY USE FOR AUTOMATIC JUNIT TESTS DO NOT TOUCH!!!
+	 * @param user
+	 * @param material
+	 * @return
+	 */
+	public boolean extractMaterialDebugMode1(User user, Material material) {
 
+		if (daoUsers.exists(user.getId()) && !user.isPenalized()
+				&& !user.hasAllMaterials()) {
+			if (daoMaterial.exists(material.getId()) && !material.isBorrowed()) {
+				user.addBorrowedMaterial(material);
+				material.setBorrowed(true);
+				System.out.println("everything is ok...");
+				return true;
+				/* TODO memento del material */
+			} else {
+				System.err.println(material.getId()
+						+ " it's allready borrowed.");
+				return false;
+			}
+
+		} else {
+			System.err.println(user.getId()
+					+ " has reached the maximum materials" + " he can borrow.");
+			return false;
+		}
+	}
+
+	@Deprecated
+	/**
+	 * ONLY USE FOR AUTOMATIC JUNIT TESTS DO NOT TOUCH!!!
+	 * @param user
+	 * @param material
+	 * @return
+	 */
+	public boolean extractMaterialDebugMode2(User user, Material material) {
+
+		if (daoUsers.exists(user.getId()) && !user.isPenalized()
+				&& !user.hasAllMaterialsDebugMode()) {
+			if (daoMaterial.exists(material.getId()) && !material.isBorrowed()) {
+				user.addBorrowedMaterial(material);
+				material.setBorrowed(true);
+				System.out.println("everything is ok...");
+				return true;
+				/* TODO memento del material */
+			} else {
+				System.err.println(material.getId()
+						+ " it's allready borrowed.");
+				return false;
+			}
+
+		} else {
+			System.err.println(user.getId()
+					+ " has reached the maximum materials" + " he can borrow.");
+			return false;
+		}
+	}
+	
 	/**
 	 * Le pregunta al usuario un id de material hasta que le da uno existente
 	 */
