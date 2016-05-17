@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 import java.util.List;
 
 import model.material.Material;
+import controller.Controller;
 import model.users.User;
 import view.admin.AdminViewPanel.ExtractMaterialButtonListener;
 import view.admin.AdminViewPanel.PenalizeButtonListener;
@@ -12,7 +13,6 @@ import view.admin.AdminViewPanel.ReserveLaboratoryButtonListener;
 import view.admin.AdminViewPanel.ReturnMaterialButtonListener;
 import view.login.LoginPanel.LoginButtonListener;
 import view.normal.CheckMaterialPanel.CheckMaterialButtonListener;
-import controller.Controller;
 
 public class View {
 
@@ -101,6 +101,7 @@ public class View {
 		return new ExtractMaterialButtonListener() {
 			public void extractMaterialButtonClicked() {
 				controller.extractMaterial();
+				System.out.println("material extraido...");
 			}
 		};
 	}
@@ -116,7 +117,7 @@ public class View {
 	private ReserveClassroomButtonListener getReserveClassroomButtonListener() {
 		return new ReserveClassroomButtonListener() {
 			public void reserveClassroomButtonClicked() {
-				System.out.println("Aula reservada!!");
+				controller.reservarClassroom();
 			}
 		};
 	}
@@ -124,7 +125,7 @@ public class View {
 	private ReserveLaboratoryButtonListener getReserveLaboratoryButtonListener() {
 		return new ReserveLaboratoryButtonListener() {
 			public void reserveLaboratoryButtonClicked() {
-				System.out.println("Lab reservado!!");
+				controller.reservarLaboratory();
 			}
 		};
 	}

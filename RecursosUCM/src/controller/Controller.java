@@ -3,9 +3,14 @@ package controller;
 import java.util.List;
 import java.util.Scanner;
 
+import data.DAOClassroom;
+import data.DAOLaboratory;
 import data.DAOMaterial;
 import data.users.DAOUsers;
 import data.users.DAOUsersMemento;
+import model.material.Classroom;
+import model.material.Fecha;
+import model.material.Laboratory;
 import model.material.Material;
 import model.penalization.Penalization;
 import model.users.User;
@@ -15,10 +20,14 @@ public class Controller {
 	private DAOUsers daoUsers;
 	private Scanner in;
 	private DAOMaterial daoMaterial;
-
-	public Controller(List<User> users, List<Material> materials) {
+	private DAOClassroom daoClass;
+	private DAOLaboratory daoLab;
+	
+	public Controller(List<User> users, List<Material> materials, List<Laboratory> labs, List<Classroom> classroom ) {
 		this.daoUsers = new DAOUsers(users);
 		this.daoMaterial = new DAOMaterial(materials);
+		this.daoClass = new  DAOClassroom (classroom);
+		this.daoLab = new  DAOLaboratory (labs);
 		this.in = new Scanner(System.in);
 	}
 
@@ -54,7 +63,6 @@ public class Controller {
 		DAOUsersMemento daoUsersMemento = daoUsers.requestMemento();
 		daoUsers.restoreToMemento(daoUsersMemento);
 		User user = daoUsers.getUserOfLastIndexLooked();
-
 		if (user.hasBorrowedMaterials()) {
 			System.out.println("ID del material a devolver: ");
 			String idMaterial = in.next();
@@ -84,7 +92,6 @@ public class Controller {
 				} else {
 					System.err.println(mat.getId() + " it's allready borrowed.");
 				}
-	
 			} else {
 				System.err.println(user.getId()
 						+ " has reached the maximum materials" + " he can borrow.");
@@ -196,12 +203,48 @@ public class Controller {
 		}
 	}
 	
+	
+	
+	public void reservarClassroom(){
+		System.out.print("Choose the date and hour at which you want to book the classroom (YYYY/MM/DD/HH)");
+		String fecha = in.nextLine();
+		Fecha f = stringToFecha(fecha);
+		List<Classroom> classRoomsAvailables = daoClass.AvaibleList(f);
+		if (classRoomsAvailables.size() > 0 ) {
+			displayClassrooms(classRoomsAvailables);
+			int n = Integer.parseInt(in.next());
+			Classroom c = classRoomsAvailables.get(n);
+			c.reservar(f);
+			System.out.println("Aula reservada!! \n" );
+		} else {
+			System.err.println("No existen clases disponibles para la fecha introducida");
+		}
+	}
+	
+	public void reservarLaboratory(){
+		System.out.print("Choose the date and hour at which you want to book the classroom (YYYY/MM/DD/HH)");
+		String fecha = in.nextLine();
+		Fecha f = stringToFecha(fecha);
+		
+		List<Laboratory> LaboratoriesAvailables = daoLab.AvaibleList(f);
+		
+		if (LaboratoriesAvailables.size() > 0 ) {
+			displayLabs(LaboratoriesAvailables);
+			int n = Integer.parseInt(in.next());
+			Laboratory c = LaboratoriesAvailables.get(n);
+			c.reservar(f);
+			System.out.println("Aula reservada!! \n" );
+		} else {
+			System.err.println("No existen laboratorios disponibles para la fecha introducida");
+		}
+	}
+	
 	/**
 	 * Le pregunta al usuario un id de material hasta que le da uno existente
 	 */
 	private Material getExistentMaterial() {
 		String idMat;
-		System.out.println("ID del material: ");
+		System.out.println("Nombre del usuario: ");
 		idMat = in.next();
 		while (!daoMaterial.exists(idMat)) {
 			System.err.println("material not found");
@@ -225,4 +268,34 @@ public class Controller {
 		}
 		return daoUsers.get(idUsu);
 	}
+	
+	private Fecha stringToFecha(String s) {
+		String split = "/";
+		String datos[] = s.split(split);		
+		Fecha f =  new Fecha(Integer.parseInt(datos[0]), Integer.parseInt(datos[1]), 
+				Integer.parseInt(datos[2]), Integer.parseInt(datos[3]));
+		
+		return f;
+	}
+	
+	private void displayLabs (List<Laboratory> l) {
+		int i = 0;
+		for (Laboratory c: l) {
+			System.out.println(i + "| ID Laboratorio: " + c.getId() + "| Capacidad Laboratorio:  " + c.getCapacidad() + "\n");
+			i++;
+		}
+
+		System.out.print("Introduce el numero de laboratorio que quiere reservar \n");
+	}
+	
+	private void displayClassrooms (List<Classroom> l) {
+		int i = 0;
+		for (Classroom c: l) {
+			System.out.println(i + "| ID Clase: " + c.getId() + "| Capacidad Clase:  " + c.getCapacidad() + "\n");
+			i++;
+		}
+		
+		System.out.print("Introduce el numero de aula que quiere reservar \n");
+	}
+	
 }

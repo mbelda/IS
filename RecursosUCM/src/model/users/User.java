@@ -24,6 +24,10 @@ public class User {
 		this.isAdmin = isAdmin;
 		this.isPenalized = false;
 		penalization = null;
+		/*
+		 * En un mundo real habría que acceder a una base de datos para poder
+		 * hacer esto.
+		 */
 		this.borrowedMaterials = new ArrayList<Material>();
 		this.lastIndexLooked = 0;
 	}
@@ -68,16 +72,14 @@ public class User {
 		}
 		return false;
 	}
-
 	/**
-	 * Devuelve si ha alcanzado el maximo de materiales disponibles Si es admin
-	 * no tiene maximo
-	 */
-	public boolean hasAllMaterials() {
-		if (this.isAdmin())
-			return false;
+	 * Devuelve si ha alcanzado el maximo de materiales disponibles
+	 * Si es admin no tiene maximo
+	 * */
+	public boolean hasAllMaterials(){
+		if(this.isAdmin()) return false;
 		else
-			return !(borrowedMaterials.size() < MAX_MATERIALS);
+			return ! (borrowedMaterials.size() < MAX_MATERIALS);
 	}
 
 	public void setPenalization(Penalization p) {

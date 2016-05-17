@@ -1,20 +1,24 @@
 package main;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import controller.Controller;
+import model.material.Classroom;
+import model.material.Fecha;
+import model.material.Laboratory;
 import model.material.Material;
 import model.users.User;
 import view.View;
 
 public class Main {
 	
-	/*MEMENTO PARA LOGIN
-	 * FACTORIA ABSTRACTA CON SINGLETON PARA DAOS*/
-	
 	private static List<User> users;
 	private static List<Material> materials;
+	private static List<Laboratory> labs;
+	private static List<Classroom> classrooms;
 	
 	private static void initUsers(){
 		users = new ArrayList<User>();
@@ -26,7 +30,7 @@ public class Main {
 		users.add(new User("Javi", "pqr", false));
 	}
 	
-	private static void initMaterials() {
+	private static void iniMaterials() {
 		materials = new ArrayList<Material>();
 		materials.add(new Material("Computer1"));
 		materials.add(new Material("Computer2"));
@@ -36,10 +40,59 @@ public class Main {
 		materials.add(new Material("Computer6"));
 	}
 	
+	private static void iniLabs() {
+		labs = new ArrayList<Laboratory> ();
+		HashMap <Fecha, Boolean> a = inicializeMap();
+		HashMap <Fecha, Boolean> b = inicializeMap();
+		HashMap <Fecha, Boolean> c = inicializeMap();
+		HashMap <Fecha, Boolean> d = inicializeMap();
+		HashMap <Fecha, Boolean> e = inicializeMap();
+		
+		
+		labs.add(new Laboratory("A", 25, a));
+		labs.add(new Laboratory("B", 20, b));
+		labs.add(new Laboratory("C", 25, c));
+		labs.add(new Laboratory("D", 24, d));
+		labs.add(new Laboratory("E", 23, e));
+		
+	}
+	
+	private static void iniClassrooms() {
+		classrooms = new ArrayList<Classroom> ();
+		HashMap <Fecha, Boolean> a = inicializeMap();
+		HashMap <Fecha, Boolean> b = inicializeMap();
+		HashMap <Fecha, Boolean> c = inicializeMap();
+		HashMap <Fecha, Boolean> d = inicializeMap();
+		HashMap <Fecha, Boolean> e = inicializeMap();
+				
+		classrooms.add(new Classroom("A", 25, a));
+		classrooms.add(new Classroom("B", 20, b));
+		classrooms.add(new Classroom("C", 25, c));
+		classrooms.add(new Classroom("D", 24, d));
+		classrooms.add(new Classroom("E", 23, e));
+		
+	}
+	
 	public static void main(String[] args) {
 		initUsers();
-		initMaterials();
-		Controller controller = new Controller(users, materials);
+		iniMaterials();
+		iniLabs();
+		iniClassrooms();
+		
+		Controller controller = new Controller(users, materials, labs, classrooms);
+		controller.reservarClassroom();
 		View vista = new View(controller);
+	}
+	
+	
+	private static HashMap <Fecha, Boolean> inicializeMap() {
+		HashMap <Fecha, Boolean> m = new HashMap<Fecha, Boolean>();
+		for (int i = 1; i < 3; i++) {
+			for (int j = 9; j < 18; j++) {
+				m.put(new Fecha(2016, 6, i, j), false);
+			}
+		}
+	
+		return m;
 	}
 }
