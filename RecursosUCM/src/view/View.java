@@ -3,6 +3,8 @@ package view;
 import java.awt.EventQueue;
 import java.util.List;
 
+import commands.*;
+
 import model.material.Material;
 import controller.Controller;
 import model.users.User;
@@ -19,10 +21,16 @@ public class View {
 	private User user = null;
 	private GUI gui;
 	Controller controller;
+	private List<Command> cmds;
 
 	public View(Controller controller) {
 		this.controller = controller;
 		gui = new GUI(getLoginButtonListener());
+		cmds.add(new PenalizeCommand());
+		cmds.add(new ExtractMaterialCommand());
+		cmds.add(new ReturnMaterialCommand());
+		cmds.add(new ReservarClassroomCommand());
+		cmds.add(new ReservarLaboratoryCommand());
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				gui.setVisible(true);
@@ -80,7 +88,7 @@ public class View {
 				System.out.println("----Material Prestado----");
 				if (material.size() != 0) {
 					for (int i = 0; i < material.size(); i++) {
-						System.out.println((i+1) +". " + material.get(i));
+						System.out.println((i + 1) + ". " + material.get(i));
 					}
 				} else
 					System.out.println("Nada prestado");
@@ -92,7 +100,7 @@ public class View {
 	private PenalizeButtonListener getPenalizeButtonListener() {
 		return new PenalizeButtonListener() {
 			public void penalizeButtonClicked() {
-				controller.penalize();
+				cmds.get(0).execute(controller);
 			}
 		};
 	}
@@ -100,7 +108,7 @@ public class View {
 	private ExtractMaterialButtonListener getExtractMaterialButtonListener() {
 		return new ExtractMaterialButtonListener() {
 			public void extractMaterialButtonClicked() {
-				controller.extractMaterial();
+				cmds.get(1).execute(controller);
 				System.out.println("material extraido...");
 			}
 		};
@@ -109,7 +117,7 @@ public class View {
 	private ReturnMaterialButtonListener getReturnMaterialButtonListener() {
 		return new ReturnMaterialButtonListener() {
 			public void returnMaterialButtonClicked() {
-				controller.returnMaterial();
+				cmds.get(2).execute(controller);
 			}
 		};
 	}
@@ -117,7 +125,7 @@ public class View {
 	private ReserveClassroomButtonListener getReserveClassroomButtonListener() {
 		return new ReserveClassroomButtonListener() {
 			public void reserveClassroomButtonClicked() {
-				controller.reservarClassroom();
+				cmds.get(3).execute(controller);
 			}
 		};
 	}
@@ -125,7 +133,7 @@ public class View {
 	private ReserveLaboratoryButtonListener getReserveLaboratoryButtonListener() {
 		return new ReserveLaboratoryButtonListener() {
 			public void reserveLaboratoryButtonClicked() {
-				controller.reservarLaboratory();
+				cmds.get(4).execute(controller);
 			}
 		};
 	}
