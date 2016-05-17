@@ -14,7 +14,7 @@ public class Controller {
 	private DAOUsers daoUsers;
 	private Scanner in;
 	private DAOMaterial daoMaterial;
-	
+
 	public Controller(List<User> users, List<Material> materials) {
 		this.daoUsers = new DAOUsers(users);
 		this.daoMaterial = new DAOMaterial(materials);
@@ -45,7 +45,7 @@ public class Controller {
 		String id;
 		System.out.println("Nombre del usuario: ");
 		id = in.next();
-		while(!daoUsers.exists(id)){
+		while (!daoUsers.exists(id)) {
 			System.err.println("username not found");
 			System.out.println("Nombre del usuario: ");
 			id = in.next();
@@ -53,11 +53,11 @@ public class Controller {
 		DAOUsersMemento daoUsersMemento = daoUsers.requestMemento();
 		daoUsers.restoreToMemento(daoUsersMemento);
 		User user = daoUsers.getUserOfLastIndexLooked();
-		
-		if(user.hasBorrowedMaterials()){
+
+		if (user.hasBorrowedMaterials()) {
 			System.out.println("ID del material a devolver: ");
 			String idMaterial = in.next();
-			while(!user.hasMaterial(idMaterial)){
+			while (!user.hasMaterial(idMaterial)) {
 				System.err.println("material not found");
 				System.out.println("ID del material a devolver: ");
 				idMaterial = in.next();
@@ -73,46 +73,112 @@ public class Controller {
 	public void extractMaterial() {
 		User user = getExistentUser();
 		
-		if(!user.isPenalizated() && !user.hasAllMaterials()){
+		if (!user.isPenalizated() && !user.hasAllMaterials()) {
 			Material mat = getExistentMaterial();
-			if(!mat.isBorrowed()){
+			if (!mat.isBorrowed()) {
 				user.addBorrowedMaterial(mat);
 				mat.setBorrowed(true);
 				System.out.println("everything is ok...");
-				/*TODO memento del material*/
+				/* TODO memento del material */
 			} else {
 				System.err.println(mat.getId() + " it's allready borrowed.");
 			}
-			
+
 		} else {
-			System.err.println(user.getId() + " has reached the maximum materials"
-				+ " he can borrow.");
+			/*Majo revisa los mensajes de error, no son muy coherentes en las pruebas,
+			 * cuando un usario está penalizado muestra el error de que tiene el maximo
+			 * de elementos prestados.*/
+			System.err.println(user.getId()
+					+ " has reached the maximum materials" + " he can borrow.");
 		}
 	}
 	
+	public List<Material> checkMaterial(User user) {
+		return user.getBorrowedMaterials();
+	}
+	
+	@Deprecated
+	/**
+	 * ONLY USE FOR AUTOMATIC JUNIT TESTS DO NOT TOUCH!!!
+	 * @param user
+	 * @param material
+	 * @return
+	 */
+	public boolean extractMaterialDebugMode1(User user, Material material) {
+
+		if (daoUsers.exists(user.getId()) && !user.isPenalizated()
+				&& !user.hasAllMaterials()) {
+			if (daoMaterial.exists(material.getId()) && !material.isBorrowed()) {
+				user.addBorrowedMaterial(material);
+				material.setBorrowed(true);
+				System.out.println("everything is ok...");
+				return true;
+				/* TODO memento del material */
+			} else {
+				System.err.println(material.getId()
+						+ " it's allready borrowed.");
+				return false;
+			}
+
+		} else {
+			System.err.println(user.getId()
+					+ " has reached the maximum materials" + " he can borrow.");
+			return false;
+		}
+	}
+
+	@Deprecated
+	/**
+	 * ONLY USE FOR AUTOMATIC JUNIT TESTS DO NOT TOUCH!!!
+	 * @param user
+	 * @param material
+	 * @return
+	 */
+	public boolean extractMaterialDebugMode2(User user, Material material) {
+
+		if (daoUsers.exists(user.getId()) && !user.isPenalizated()
+				&& !user.hasAllMaterialsDebugMode()) {
+			if (daoMaterial.exists(material.getId()) && !material.isBorrowed()) {
+				user.addBorrowedMaterial(material);
+				material.setBorrowed(true);
+				System.out.println("everything is ok...");
+				return true;
+				/* TODO memento del material */
+			} else {
+				System.err.println(material.getId()
+						+ " it's allready borrowed.");
+				return false;
+			}
+
+		} else {
+			System.err.println(user.getId()
+					+ " has reached the maximum materials" + " he can borrow.");
+			return false;
+		}
+	}
 	/**
 	 * Le pregunta al usuario un id de material hasta que le da uno existente
 	 */
-	private Material getExistentMaterial(){
+	private Material getExistentMaterial() {
 		String idMat;
 		System.out.println("ID del material: ");
 		idMat = in.next();
-		while(!daoMaterial.exists(idMat)){
+		while (!daoMaterial.exists(idMat)) {
 			System.err.println("material not found");
 			System.out.println("ID del material: ");
 			idMat = in.next();
 		}
-		return daoMaterial.getMaterial(idMat);	
+		return daoMaterial.getMaterial(idMat);
 	}
-	
+
 	/**
 	 * Le pregunta al usuario un id de usuario hasta que le da uno existente
 	 */
-	private User getExistentUser(){
+	private User getExistentUser() {
 		String idUsu;
 		System.out.println("Nombre del usuario: ");
 		idUsu = in.next();
-		while(!daoUsers.exists(idUsu)){
+		while (!daoUsers.exists(idUsu)) {
 			System.err.println("username not found");
 			System.out.println("Nombre del usuario: ");
 			idUsu = in.next();

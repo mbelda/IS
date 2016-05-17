@@ -25,6 +25,10 @@ public class User {
 		this.lastIndexLooked = 0;
 	}
 
+	public List<Material> getBorrowedMaterials() {
+		return borrowedMaterials; 
+	}
+
 	public boolean hasBorrowedMaterials() {
 		return !borrowedMaterials.isEmpty();
 	}
@@ -40,7 +44,7 @@ public class User {
 	public boolean isAdmin() {
 		return this.isAdmin;
 	}
-	
+
 	public void deleteLastIndexLookedBorrowedMaterial() {
 		this.borrowedMaterials.remove(lastIndexLooked);
 	}
@@ -71,5 +75,21 @@ public class User {
 			return false;
 		else
 			return !(borrowedMaterials.size() < MAX_MATERIALS);
+	}
+
+	@Deprecated
+	/**
+	 * DO NOT TOUCH
+	 */
+	public void setPenalizedDebugMode(boolean penalized) {
+		this.isPenalizated = penalized;
+	}
+
+	@Deprecated
+	/**
+	 * DO NOT TOUCH
+	 */
+	public boolean hasAllMaterialsDebugMode() {
+		return true;
 	}
 }
