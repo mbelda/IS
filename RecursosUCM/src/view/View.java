@@ -3,6 +3,9 @@ package view;
 import java.awt.EventQueue;
 
 import controller.Controller;
+import model.material.Classroom;
+import model.material.Fecha;
+import model.material.Laboratory;
 import model.users.User;
 import view.admin.AdminViewPanel.ExtractMaterialButtonListener;
 import view.admin.AdminViewPanel.PenalizeButtonListener;
@@ -90,6 +93,7 @@ public class View {
 		return new ExtractMaterialButtonListener() {
 			public void extractMaterialButtonClicked() {
 				controller.extractMaterial();
+				System.out.println("material extraido...");
 			}
 		};
 	}
@@ -105,7 +109,7 @@ public class View {
 	private ReserveClassroomButtonListener getReserveClassroomButtonListener() {
 		return new ReserveClassroomButtonListener() {
 			public void reserveClassroomButtonClicked() {
-				System.out.println("Aula reservada!!");
+				controller.reservarClassroom();
 			}
 		};
 	}
@@ -113,7 +117,7 @@ public class View {
 	private ReserveLaboratoryButtonListener getReserveLaboratoryButtonListener() {
 		return new ReserveLaboratoryButtonListener() {
 			public void reserveLaboratoryButtonClicked() {
-				System.out.println("Lab reservado!!");
+				controller.reservarLaboratory();
 			}
 		};
 	}

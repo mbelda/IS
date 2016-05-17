@@ -13,20 +13,18 @@ public class User {
 	protected boolean isAdmin;
 	private List<Material> borrowedMaterials;
 	private boolean isPenalizated;
-	private static final int MAX_MATERIALS = 10;
-	private int lastIndexLooked;
-
+	private int MAX_MATERIALS = 10;
+	
 	public User(String id, String password, boolean isAdmin) {
 		this.id = id;
 		this.password = password;
 		this.isAdmin = isAdmin;
 		isPenalizated = false;
+		/*
+		 * En un mundo real habría que acceder a una base de datos para poder
+		 * hacer esto.
+		 */
 		this.borrowedMaterials = new ArrayList<Material>();
-		this.lastIndexLooked = 0;
-	}
-
-	public boolean hasBorrowedMaterials() {
-		return !borrowedMaterials.isEmpty();
 	}
 
 	public String getId() {
@@ -41,35 +39,19 @@ public class User {
 		return this.isAdmin;
 	}
 	
-	public void deleteLastIndexLookedBorrowedMaterial() {
-		this.borrowedMaterials.remove(lastIndexLooked);
-	}
-
-	public void addBorrowedMaterial(Material mat) {
+	public void addBorrowedMaterial(Material mat){
 		borrowedMaterials.add(mat);
 	}
-
-	public boolean isPenalizated() {
-		return isPenalizated;
-	}
-
-	public boolean hasMaterial(String idMaterial) {
-		for (int i = 0; i < borrowedMaterials.size(); i++) {
-			this.lastIndexLooked = i;
-			if (borrowedMaterials.get(i).getId().equals(idMaterial))
-				return true;
-		}
-		return false;
-	}
-
+	
+	public boolean isPenalizated(){return isPenalizated;}
+	
 	/**
-	 * Devuelve si ha alcanzado el maximo de materiales disponibles Si es admin
-	 * no tiene maximo
-	 */
-	public boolean hasAllMaterials() {
-		if (this.isAdmin())
-			return false;
+	 * Devuelve si ha alcanzado el maximo de materiales disponibles
+	 * Si es admin no tiene maximo
+	 * */
+	public boolean hasAllMaterials(){
+		if(this.isAdmin()) return false;
 		else
-			return !(borrowedMaterials.size() < MAX_MATERIALS);
+			return ! (borrowedMaterials.size() < MAX_MATERIALS);
 	}
 }
