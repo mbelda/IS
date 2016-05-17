@@ -56,8 +56,8 @@ public class View {
 			CheckMaterialButtonListener checkMaterialButtonListener) {
 		gui.setAdminView(user, penalizeButtonListener,
 				extractMaterialButtonListener, returnMaterialButtonListener,
-				reserveClassroomButtonListener, reserveLaboratoryButtonListener,
-				checkMaterialButtonListener);
+				reserveClassroomButtonListener,
+				reserveLaboratoryButtonListener, checkMaterialButtonListener);
 	}
 
 	private void setNormalView(User user,
@@ -81,7 +81,7 @@ public class View {
 	private PenalizeButtonListener getPenalizeButtonListener() {
 		return new PenalizeButtonListener() {
 			public void penalizeButtonClicked() {
-				System.out.println("penalizado!!");
+				controller.penalize();
 			}
 		};
 	}

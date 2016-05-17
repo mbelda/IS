@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.material.Material;
+import model.penalization.Penalization;
 
 public class User {
 
@@ -12,15 +13,15 @@ public class User {
 	private String password;
 	protected boolean isAdmin;
 	private List<Material> borrowedMaterials;
-	private boolean isPenalizated;
 	private static final int MAX_MATERIALS = 10;
 	private int lastIndexLooked;
+	private Penalization penalization;
 
 	public User(String id, String password, boolean isAdmin) {
 		this.id = id;
 		this.password = password;
 		this.isAdmin = isAdmin;
-		isPenalizated = false;
+		penalization = null;
 		this.borrowedMaterials = new ArrayList<Material>();
 		this.lastIndexLooked = 0;
 	}
@@ -40,7 +41,7 @@ public class User {
 	public boolean isAdmin() {
 		return this.isAdmin;
 	}
-	
+
 	public void deleteLastIndexLookedBorrowedMaterial() {
 		this.borrowedMaterials.remove(lastIndexLooked);
 	}
@@ -49,8 +50,8 @@ public class User {
 		borrowedMaterials.add(mat);
 	}
 
-	public boolean isPenalizated() {
-		return isPenalizated;
+	public boolean isPenalized() {
+		return this.penalization != null;
 	}
 
 	public boolean hasMaterial(String idMaterial) {
@@ -71,5 +72,9 @@ public class User {
 			return false;
 		else
 			return !(borrowedMaterials.size() < MAX_MATERIALS);
+	}
+
+	public void setPenalization(Penalization p) {
+		this.penalization = p;
 	}
 }
