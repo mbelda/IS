@@ -14,4 +14,24 @@ public class Penalization {
 		this.cause = cause;
 	}
 
+	public int getPenalizationEndDay() {
+		return this.day;
+	}
+
+	public int getPenalizationEndMonth() {
+		return this.month;
+	}
+
+	public int getPenalizationEndYear() {
+		return this.year;
+	}
+
+	public String getPenalizationDetails() {
+		return this.details;
+	}
+
+	public String getPenalizationCause() {
+		return this.cause;
+	}
+
 }
