@@ -1,29 +1,20 @@
 package model.penalization;
 
+import model.material.Fecha;
+
 public class Penalization {
 
-	private int day, month, year;
+	private Fecha fechaFin;
 	private String details, cause;
 
-	public Penalization(int day, int month, int year, String details,
-			String cause) {
-		this.day = day;
-		this.month = month;
-		this.year = year;
+	public Penalization(Fecha f, String details, String cause) {
+		this.fechaFin = f;
 		this.details = details;
 		this.cause = cause;
 	}
 
-	public int getPenalizationEndDay() {
-		return this.day;
-	}
-
-	public int getPenalizationEndMonth() {
-		return this.month;
-	}
-
-	public int getPenalizationEndYear() {
-		return this.year;
+	public Fecha getFecha() {
+		return this.fechaFin;
 	}
 
 	public String getPenalizationDetails() {
