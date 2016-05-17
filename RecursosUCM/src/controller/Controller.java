@@ -73,22 +73,25 @@ public class Controller {
 
 	public void extractMaterial() {
 		User user = getExistentUser();
-
-		if (!user.isPenalized() && !user.hasAllMaterials()) {
-			Material mat = getExistentMaterial();
-			if (!mat.isBorrowed()) {
-				user.addBorrowedMaterial(mat);
-				mat.setBorrowed(true);
-				System.out.println("everything is ok...");
-				/* TODO memento del material */
+		if(!user.isPenalized()){
+			if (!user.hasAllMaterials()) {
+				Material mat = getExistentMaterial();
+				if (!mat.isBorrowed()) {
+					user.addBorrowedMaterial(mat);
+					mat.setBorrowed(true);
+					System.out.println("everything is ok...");
+					/* TODO memento del material */
+				} else {
+					System.err.println(mat.getId() + " it's allready borrowed.");
+				}
+			
 			} else {
-				System.err.println(mat.getId() + " it's allready borrowed.");
+				System.err.println(user.getId()
+						+ " has reached the maximum materials" + " he can borrow.");
 			}
-
-		} else {
-			System.err.println(user.getId()
-					+ " has reached the maximum materials" + " he can borrow.");
 		}
+		else {System.err.println(user.getId()
+				+ " is penalized.");}
 	}
 
 	public void penalize() {
