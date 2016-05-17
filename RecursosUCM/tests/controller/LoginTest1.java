@@ -39,12 +39,12 @@ public class LoginTest1 {
 		fakeUsers.add(new User("fgbvnvbfg", "f", false));
 		fakeUsers.add(new User("bnbndfgdfg", "dsf", true));
 	}
-
+/*
 	@Before
 	public void prepareData() {
 		initUsers();
 		controller = new Controller(users, materials);
-	}
+	}*/
 
 	@Test
 	public void test() {

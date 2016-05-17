@@ -1,4 +1,4 @@
-package data.users;
+package daos.users;
 
 public class DAOUsersMemento {
 

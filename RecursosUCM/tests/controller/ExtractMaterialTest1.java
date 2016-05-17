@@ -66,7 +66,7 @@ public class ExtractMaterialTest1 {
 		fakeUsers.add(new User("Javi", "pqr", false));
 		fakeUsers.add(new User("Juan", "mno", true));
 	}
-
+/*
 	@Before
 	public void prepareData() {
 		initUsers();
@@ -86,6 +86,6 @@ public class ExtractMaterialTest1 {
 				assertFalse(test);
 				
 		}
-	}
+	}*/
 
 }

@@ -36,13 +36,13 @@ public class LoginTest3 {
 		fakeUsers.add(new User("Juan", "mno", true));
 		fakeUsers.add(new User("Javi", "pqr", false));
 	}
-
+/*
 	@Before
 	public void prepareData() {
 		initUsers();
 		controller = new Controller(users, materials);
 	}
-
+*/
 	@Test
 	public void test() {
 		for (int i = 0; i < fakeUsers.size(); i++) {

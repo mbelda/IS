@@ -1,4 +1,4 @@
-package data;
+package daos;
 
 import java.util.ArrayList;
 import java.util.List;

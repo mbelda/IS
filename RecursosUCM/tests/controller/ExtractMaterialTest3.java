@@ -53,12 +53,12 @@ public class ExtractMaterialTest3 {
 		fakeUsers.add(new User("Javi", "pqr", false));
 		fakeUsers.add(new User("Juan", "mno", true));
 	}
-
+/*
 	@Before
 	public void prepareData() {
 		initUsers();
 		initMaterial();
-		controller = new Controller(users, materials);
+		controller = new Controller(users, materials, null);
 	}
 
 	@SuppressWarnings("deprecation")
@@ -71,6 +71,6 @@ public class ExtractMaterialTest3 {
 				assertFalse(test);
 				
 		}
-	}
+	}*/
 
 }
