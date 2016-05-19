@@ -25,10 +25,10 @@ public class Controller {
 
 	public Controller(List<User> users, List<Material> materials,
 			List<Laboratory> labs, List<Classroom> classroom) {
-		this.daoUsers = new DAOUsers(users);
-		this.daoMaterial = new DAOMaterial(materials);
-		this.daoClass = new DAOClassroom(classroom);
-		this.daoLab = new DAOLaboratory(labs);
+		this.daoUsers = DAOUsers.getDaoUsers(users);
+		this.daoMaterial = DAOMaterial.getDaoMaterial(materials);
+		this.daoClass =  DAOClassroom.getDaoClassroom(classroom);
+		this.daoLab =  DAOLaboratory.getDaoLaboratory(labs);
 		this.in = new Scanner(System.in);
 	}
 

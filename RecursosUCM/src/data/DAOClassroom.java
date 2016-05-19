@@ -9,6 +9,7 @@ import model.material.Laboratory;
 
 public class DAOClassroom {
 	
+	private static DAOClassroom theDaoClass;
 	private List<Classroom> classrooms;
 	
 	public DAOClassroom(List <Classroom> l ) {
@@ -25,6 +26,13 @@ public class DAOClassroom {
 				
 		}
 		return list;
+	}
+	
+	public static DAOClassroom getDaoClassroom (List <Classroom> l) {
+		if ( theDaoClass == null) {
+			 theDaoClass = new  DAOClassroom(l);
+		}
+		return  theDaoClass;
 	}
 	
 

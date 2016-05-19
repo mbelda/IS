@@ -2,11 +2,16 @@ package data.users;
 
 import java.util.List;
 
+import data.DAOClassroom;
+import model.material.Classroom;
 import model.users.User;
 
 public class DAOUsers {
+	
+	private static DAOUsers theDaoUsers;
 	private List<User> users;
 	private int lastIndexLooked;
+	
 
 	public DAOUsers(List<User> users) {
 		this.users = users;
@@ -40,5 +45,12 @@ public class DAOUsers {
 				return users.get(i);
 		}
 		return null;		
+	}
+	
+	public static DAOUsers getDaoUsers(List <User> l) {
+		if ( theDaoUsers == null) {
+			theDaoUsers = new  DAOUsers(l);
+		}
+		return  theDaoUsers;
 	}
 }

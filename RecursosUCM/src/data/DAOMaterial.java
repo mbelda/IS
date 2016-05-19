@@ -2,9 +2,11 @@ package data;
 
 import java.util.List;
 
+import model.material.Classroom;
 import model.material.Material;
 
 public class DAOMaterial {
+	private static DAOMaterial theDAOMaterial;
 	private List<Material> materials;
 
 	public DAOMaterial(List<Material> materials) {
@@ -25,5 +27,12 @@ public class DAOMaterial {
 					return materials.get(i);
 			}
 			return null;
+	}
+	
+	public static DAOMaterial getDaoMaterial (List <Material> l) {
+		if ( theDAOMaterial == null) {
+			theDAOMaterial = new  DAOMaterial(l);
+		}
+		return  theDAOMaterial;
 	}
 }

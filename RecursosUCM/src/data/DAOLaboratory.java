@@ -3,11 +3,13 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.material.Classroom;
 import model.material.Laboratory;
 import model.material.Fecha;
 
 public class DAOLaboratory {
 	
+	private static DAOLaboratory theDaoLab;
 	private List<Laboratory> labs;
 	
 	public DAOLaboratory(List <Laboratory> l ) {
@@ -27,5 +29,11 @@ public class DAOLaboratory {
 		return list;
 	}
 	
+	public static DAOLaboratory getDaoLaboratory (List <Laboratory> l) {
+		if ( theDaoLab == null) {
+			theDaoLab = new DAOLaboratory(l);
+		}
+		return  theDaoLab;
+	}
 
 }
