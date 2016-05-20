@@ -58,7 +58,7 @@ public class ExtractMaterialTest2 {
 	public void prepareData() {
 		initUsers();
 		initMaterial();
-		controller = new Controller(users, materials);
+		controller = new Controller(users, materials, null, null);
 	}
 
 	@SuppressWarnings("deprecation")

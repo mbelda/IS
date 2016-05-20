@@ -30,7 +30,6 @@ public class Classroom {
 		if (map.containsKey(fecha)) {
 			return map.get(fecha);
 		}
-		System.out.print("PITOS");
 	 return false;
 	}
 	

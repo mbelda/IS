@@ -80,7 +80,6 @@ public class Main {
 		iniClassrooms();
 		
 		Controller controller = new Controller(users, materials, labs, classrooms);
-		controller.reservarClassroom();
 		View vista = new View(controller);
 	}
 	

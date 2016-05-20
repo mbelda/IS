@@ -4,7 +4,6 @@ import java.awt.EventQueue;
 import java.util.List;
 
 import commands.*;
-
 import model.material.Material;
 import controller.Controller;
 import model.users.User;
@@ -16,7 +15,7 @@ import view.admin.AdminViewPanel.ReturnMaterialButtonListener;
 import view.login.LoginPanel.LoginButtonListener;
 import view.normal.CheckMaterialPanel.CheckMaterialButtonListener;
 
-public class View {
+public class View implements ControllerObserver {
 
 	private User user = null;
 	private GUI gui;
@@ -31,6 +30,9 @@ public class View {
 		cmds.add(new ReturnMaterialCommand());
 		cmds.add(new ReservarClassroomCommand());
 		cmds.add(new ReservarLaboratoryCommand());
+		
+		/*Nos suscribimos alos eventos del controlador*/
+		controller.addObserver(this);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				gui.setVisible(true);
@@ -136,5 +138,15 @@ public class View {
 				cmds.get(4).execute(controller);
 			}
 		};
+	}
+	
+	@Override
+	public void onPrintingMessage(String message) {
+		System.out.println(message);
+	}
+
+	@Override
+	public void onPrintingErrorMessage(String message) {
+		System.err.println(message);
 	}
 }

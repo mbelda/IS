@@ -38,7 +38,7 @@ public class LoginTest2 {
 	@Before
 	public void prepareData() {
 		initUsers();
-		controller = new Controller(users, materials);
+		controller = new Controller(users, materials, null, null);
 	}
 
 	@Test

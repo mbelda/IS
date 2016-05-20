@@ -71,7 +71,7 @@ public class ExtractMaterialTest1 {
 	public void prepareData() {
 		initUsers();
 		initMaterial();
-		controller = new Controller(users, materials);
+		controller = new Controller(users, materials, null, null);
 	}
 
 	@Test

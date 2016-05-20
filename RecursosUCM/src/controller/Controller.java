@@ -1,22 +1,26 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import data.DAOClassroom;
-import data.DAOLaboratory;
-import data.DAOMaterial;
-import data.users.DAOUsers;
-import data.users.DAOUsersMemento;
 import model.material.Classroom;
 import model.material.Fecha;
 import model.material.Laboratory;
 import model.material.Material;
 import model.penalization.Penalization;
 import model.users.User;
+import view.ControllerObserver;
+import view.Observable;
+import data.DAOClassroom;
+import data.DAOLaboratory;
+import data.DAOMaterial;
+import data.users.DAOUsers;
+import data.users.DAOUsersMemento;
 
-public class Controller {
+public class Controller implements Observable<ControllerObserver> {
 
+	private List<ControllerObserver> controllerObserverList;
 	private DAOUsers daoUsers;
 	private Scanner in;
 	private DAOMaterial daoMaterial;
@@ -27,8 +31,8 @@ public class Controller {
 			List<Laboratory> labs, List<Classroom> classroom) {
 		this.daoUsers = DAOUsers.getDaoUsers(users);
 		this.daoMaterial = DAOMaterial.getDaoMaterial(materials);
-		this.daoClass =  DAOClassroom.getDaoClassroom(classroom);
-		this.daoLab =  DAOLaboratory.getDaoLaboratory(labs);
+		this.daoClass = DAOClassroom.getDaoClassroom(classroom);
+		this.daoLab = DAOLaboratory.getDaoLaboratory(labs);
 		this.in = new Scanner(System.in);
 	}
 
@@ -40,43 +44,43 @@ public class Controller {
 			daoUsers.restoreToMemento(daoUsersMemento);
 			user = daoUsers.getUserOfLastIndexLooked();
 			if (user.getPassword().equals(password)) {
-				System.out.println("login correct");
+				this.notifyMessage("login correct");
 				return user;
 			} else {
-				System.err.println("incorrect password");
+				this.notifyError("incorrect password");
 				return null;
 			}
 		} else {
-			System.err.println("username not found");
+			this.notifyError("username not found");
 			return null;
 		}
 	}
 
 	public void returnMaterial() {
 		String id;
-		System.out.println("Nombre del usuario: ");
+		this.notifyMessage("Nombre del usuario: ");
 		id = in.next();
 		while (!daoUsers.exists(id)) {
-			System.err.println("username not found");
-			System.out.println("Nombre del usuario: ");
+			this.notifyError("username not found");
+			this.notifyMessage("Nombre del usuario: ");
 			id = in.next();
 		}
 		DAOUsersMemento daoUsersMemento = daoUsers.requestMemento();
 		daoUsers.restoreToMemento(daoUsersMemento);
 		User user = daoUsers.getUserOfLastIndexLooked();
 		if (user.hasBorrowedMaterials()) {
-			System.out.println("ID del material a devolver: ");
+			this.notifyMessage("ID del material a devolver: ");
 			String idMaterial = in.next();
 			while (!user.hasMaterial(idMaterial)) {
-				System.err.println("material not found");
-				System.out.println("ID del material a devolver: ");
+				this.notifyError("material not found");
+				this.notifyMessage("ID del material a devolver: ");
 				idMaterial = in.next();
 			}
 			user.deleteLastIndexLookedBorrowedMaterial();
 			daoMaterial.getMaterial(idMaterial).setBorrowed(false);
-			System.out.println("everything is ok...");
+			this.notifyMessage("everything is ok...");
 		} else {
-			System.err.println("El usuario no se corresponde con el material");
+			this.notifyError("El usuario no se corresponde con el material");
 		}
 	}
 
@@ -88,19 +92,17 @@ public class Controller {
 				if (!mat.isBorrowed()) {
 					user.addBorrowedMaterial(mat);
 					mat.setBorrowed(true);
-					System.out.println("everything is ok...");
-					/* TODO memento del material */
+					this.notifyMessage("everything is ok...");
 				} else {
-					System.err
-							.println(mat.getId() + " it's allready borrowed.");
+					this.notifyError(mat.getId() + " it's allready borrowed.");
 				}
 			} else {
-				System.err.println(user.getId()
+				this.notifyError(user.getId()
 						+ " has reached the maximum materials"
 						+ " he can borrow.");
 			}
 		} else {
-			System.err.println(user.getId() + " is penalized.");
+			this.notifyError(user.getId() + " is penalized.");
 		}
 	}
 
@@ -111,11 +113,11 @@ public class Controller {
 		String details;
 		String cause;
 		Penalization p;
-
-		System.out.println("Id del usuario a penalizar: ");
+		
+		this.notifyMessage("Id del usuario a penalizar: ");
 		id = in.next();
 		while (!daoUsers.exists(id)) {
-			System.err.println("Usuario no encontrado" + '\n'
+			this.notifyError("Usuario no encontrado" + '\n'
 					+ "Id del usuario a penalizar: ");
 			id = in.next();
 		}
@@ -123,16 +125,16 @@ public class Controller {
 
 		if (!u.isPenalized()) {
 			f = stringToFecha(in.next());
-
-			System.out.println("Detalles de la penalizacion: ");
+			
+			this.notifyMessage("Detalles de la penalizacion: ");
 			details = in.next();
-			System.out.println("Causa de la penalizacion");
+			this.notifyMessage("Causa de la penalizacion");
 			cause = in.next();
 
 			p = new Penalization(f, details, cause);
 			u.setPenalization(p);
 		} else {
-			System.out.println("Error, el usuario ya esta penalizado");
+			this.notifyMessage("Error, el usuario ya esta penalizado");
 		}
 	}
 
@@ -154,17 +156,16 @@ public class Controller {
 			if (daoMaterial.exists(material.getId()) && !material.isBorrowed()) {
 				user.addBorrowedMaterial(material);
 				material.setBorrowed(true);
-				System.out.println("everything is ok...");
+				this.notifyMessage("everything is ok...");
 				return true;
-				/* TODO memento del material */
 			} else {
-				System.err.println(material.getId()
+				this.notifyMessage(material.getId()
 						+ " it's allready borrowed.");
 				return false;
 			}
 
 		} else {
-			System.err.println(user.getId()
+			this.notifyError(user.getId()
 					+ " has reached the maximum materials" + " he can borrow.");
 			return false;
 		}
@@ -184,25 +185,23 @@ public class Controller {
 			if (daoMaterial.exists(material.getId()) && !material.isBorrowed()) {
 				user.addBorrowedMaterial(material);
 				material.setBorrowed(true);
-				System.out.println("everything is ok...");
+				this.notifyMessage("everything is ok...");
 				return true;
-				/* TODO memento del material */
 			} else {
-				System.err.println(material.getId()
+				this.notifyError(material.getId()
 						+ " it's allready borrowed.");
 				return false;
 			}
 
 		} else {
-			System.err.println(user.getId()
+			this.notifyError(user.getId()
 					+ " has reached the maximum materials" + " he can borrow.");
 			return false;
 		}
 	}
 
 	public void reservarClassroom() {
-		System.out
-				.print("Choose the date and hour at which you want to book the classroom (YYYY/MM/DD/HH)");
+		this.notifyMessage("Choose the date and hour at which you want to book the classroom (YYYY/MM/DD/HH)");
 		String fecha = in.nextLine();
 		Fecha f = stringToFecha(fecha);
 		List<Classroom> classRoomsAvailables = daoClass.AvaibleList(f);
@@ -211,16 +210,14 @@ public class Controller {
 			int n = Integer.parseInt(in.next());
 			Classroom c = classRoomsAvailables.get(n);
 			c.reservar(f);
-			System.out.println("Aula reservada!! \n");
+			this.notifyMessage("Aula reservada!! \n");
 		} else {
-			System.err
-					.println("No existen clases disponibles para la fecha introducida");
+			this.notifyError("No existen clases disponibles para la fecha introducida");
 		}
 	}
 
 	public void reservarLaboratory() {
-		System.out
-				.print("Choose the date and hour at which you want to book the classroom (YYYY/MM/DD/HH)");
+		this.notifyMessage("Choose the date and hour at which you want to book the classroom (YYYY/MM/DD/HH)");
 		String fecha = in.nextLine();
 		Fecha f = stringToFecha(fecha);
 
@@ -231,10 +228,9 @@ public class Controller {
 			int n = Integer.parseInt(in.next());
 			Laboratory c = LaboratoriesAvailables.get(n);
 			c.reservar(f);
-			System.out.println("Aula reservada!! \n");
+			this.notifyMessage("Aula reservada!! \n");
 		} else {
-			System.err
-					.println("No existen laboratorios disponibles para la fecha introducida");
+			this.notifyError("No existen laboratorios disponibles para la fecha introducida");
 		}
 	}
 
@@ -243,11 +239,11 @@ public class Controller {
 	 */
 	private Material getExistentMaterial() {
 		String idMat;
-		System.out.println("Nombre del usuario: ");
+		this.notifyMessage("Nombre del usuario: ");
 		idMat = in.next();
 		while (!daoMaterial.exists(idMat)) {
-			System.err.println("material not found");
-			System.out.println("ID del material: ");
+			this.notifyError("material not found");
+			this.notifyMessage("ID del material: ");
 			idMat = in.next();
 		}
 		return daoMaterial.getMaterial(idMat);
@@ -258,11 +254,11 @@ public class Controller {
 	 */
 	private User getExistentUser() {
 		String idUsu;
-		System.out.println("Nombre del usuario: ");
+		this.notifyMessage("Nombre del usuario: ");
 		idUsu = in.next();
 		while (!daoUsers.exists(idUsu)) {
-			System.err.println("username not found");
-			System.out.println("Nombre del usuario: ");
+			this.notifyError("username not found");
+			this.notifyMessage("Nombre del usuario: ");
 			idUsu = in.next();
 		}
 		return daoUsers.get(idUsu);
@@ -281,24 +277,44 @@ public class Controller {
 	private void displayLabs(List<Laboratory> l) {
 		int i = 0;
 		for (Laboratory c : l) {
-			System.out.println(i + "| ID Laboratorio: " + c.getId()
+			this.notifyMessage(i + "| ID Laboratorio: " + c.getId()
 					+ "| Capacidad Laboratorio:  " + c.getCapacidad() + "\n");
 			i++;
 		}
-
-		System.out
-				.print("Introduce el numero de laboratorio que quiere reservar \n");
+		this.notifyMessage("Introduce el numero de laboratorio que quiere reservar ");
 	}
 
 	private void displayClassrooms(List<Classroom> l) {
 		int i = 0;
 		for (Classroom c : l) {
-			System.out.println(i + "| ID Clase: " + c.getId()
+			this.notifyMessage(i + "| ID Clase: " + c.getId()
 					+ "| Capacidad Clase:  " + c.getCapacidad() + "\n");
 			i++;
 		}
-
-		System.out.print("Introduce el numero de aula que quiere reservar \n");
+		this.notifyMessage("Introduce el numero de aula que quiere reservar ");
 	}
 
+	@Override
+	public void addObserver(ControllerObserver controllerObserver) {
+		if (this.controllerObserverList == null)
+			this.controllerObserverList = new ArrayList<ControllerObserver>();
+
+	}
+
+	@Override
+	public void removeObserver(ControllerObserver controllerObserver) {
+		this.controllerObserverList.remove(controllerObserverList);
+	}
+
+	private void notifyMessage(String msg) {
+		for (int i = 0; i < this.controllerObserverList.size(); i++) {
+			this.controllerObserverList.get(i).onPrintingMessage(msg);
+		}
+	}
+
+	private void notifyError(String msg) {
+		for (int i = 0; i < this.controllerObserverList.size(); i++) {
+			this.controllerObserverList.get(i).onPrintingErrorMessage(msg);
+		}
+	}
 }

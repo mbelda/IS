@@ -30,7 +30,7 @@ public class CheckMaterialTest1 {
 	@Before
 	public void prepareData() {
 		initUsers();
-		controller = new Controller(users, null);
+		controller = new Controller(users, null, null, null);
 	}
 
 	@Test
