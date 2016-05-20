@@ -1,11 +1,10 @@
 package view;
 
 import java.awt.EventQueue;
+import java.util.ArrayList;
 import java.util.List;
 
-import commands.*;
 import model.material.Material;
-import controller.Controller;
 import model.users.User;
 import view.admin.AdminViewPanel.ExtractMaterialButtonListener;
 import view.admin.AdminViewPanel.PenalizeButtonListener;
@@ -14,6 +13,15 @@ import view.admin.AdminViewPanel.ReserveLaboratoryButtonListener;
 import view.admin.AdminViewPanel.ReturnMaterialButtonListener;
 import view.login.LoginPanel.LoginButtonListener;
 import view.normal.CheckMaterialPanel.CheckMaterialButtonListener;
+
+import commands.Command;
+import commands.ExtractMaterialCommand;
+import commands.PenalizeCommand;
+import commands.ReservarClassroomCommand;
+import commands.ReservarLaboratoryCommand;
+import commands.ReturnMaterialCommand;
+
+import controller.Controller;
 
 public class View implements ControllerObserver {
 
@@ -24,15 +32,14 @@ public class View implements ControllerObserver {
 
 	public View(Controller controller) {
 		this.controller = controller;
+		this.controller.addObserver(this);
 		gui = new GUI(getLoginButtonListener());
+		cmds = new ArrayList<Command>();
 		cmds.add(new PenalizeCommand());
 		cmds.add(new ExtractMaterialCommand());
 		cmds.add(new ReturnMaterialCommand());
 		cmds.add(new ReservarClassroomCommand());
 		cmds.add(new ReservarLaboratoryCommand());
-		
-		/*Nos suscribimos alos eventos del controlador*/
-		controller.addObserver(this);
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				gui.setVisible(true);

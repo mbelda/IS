@@ -107,21 +107,11 @@ public class Controller implements Observable<ControllerObserver> {
 	}
 
 	public void penalize() {
-		String id;
-		User u;
+		User u = getExistentUser();
 		Fecha f;
 		String details;
 		String cause;
 		Penalization p;
-		
-		this.notifyMessage("Id del usuario a penalizar: ");
-		id = in.next();
-		while (!daoUsers.exists(id)) {
-			this.notifyError("Usuario no encontrado" + '\n'
-					+ "Id del usuario a penalizar: ");
-			id = in.next();
-		}
-		u = daoUsers.get(id);
 
 		if (!u.isPenalized()) {
 			f = stringToFecha(in.next());
@@ -298,7 +288,7 @@ public class Controller implements Observable<ControllerObserver> {
 	public void addObserver(ControllerObserver controllerObserver) {
 		if (this.controllerObserverList == null)
 			this.controllerObserverList = new ArrayList<ControllerObserver>();
-
+		this.controllerObserverList.add(controllerObserver);
 	}
 
 	@Override
