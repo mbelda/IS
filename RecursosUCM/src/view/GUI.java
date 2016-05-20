@@ -12,6 +12,7 @@ import view.admin.AdminViewPanel.PenalizeButtonListener;
 import view.admin.AdminViewPanel.ReserveClassroomButtonListener;
 import view.admin.AdminViewPanel.ReserveLaboratoryButtonListener;
 import view.admin.AdminViewPanel.ReturnMaterialButtonListener;
+import view.login.LoginMemento;
 import view.login.LoginPanel;
 import view.login.LoginPanel.LoginButtonListener;
 import view.normal.CheckMaterialPanel;
@@ -75,7 +76,11 @@ public class GUI extends JFrame {
 		this.add(checkMaterialPanel, BorderLayout.NORTH);
 		refresh();
 	}
-
+	
+	public void refreshLogin(LoginMemento loginMemento){
+		loginPanel.refreshLogin(loginMemento);
+	}
+	
 	private void refresh() {
 		SwingUtilities.updateComponentTreeUI(this);
 		this.repaint();

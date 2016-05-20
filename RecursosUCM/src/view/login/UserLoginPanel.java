@@ -11,7 +11,7 @@ public class UserLoginPanel extends JPanel {
 
 	private JTextArea usernameArea;
 	private static final String PANEL_NAME_TEXT = "Username";
-	
+
 	public UserLoginPanel() {
 		super(new BorderLayout());
 		this.setBorder(BorderFactory.createTitledBorder(
@@ -19,9 +19,15 @@ public class UserLoginPanel extends JPanel {
 		usernameArea = new JTextArea();
 		this.add(usernameArea, BorderLayout.CENTER);
 	}
-	
-	public String getUsername(){
+
+	public String getUsername() {
 		return this.usernameArea.getText();
 	}
-	
+
+	public void refreshUser(LoginMemento loginMemento) {
+		if(loginMemento != null)
+			this.usernameArea.setText(loginMemento.getState());
+		else
+			this.usernameArea.setText("");
+	}
 }

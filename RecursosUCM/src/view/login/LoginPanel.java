@@ -46,4 +46,10 @@ public class LoginPanel extends JPanel {
 	public String getPassword() {
 		return this.passwordLoginPanel.getPassword();
 	}
+
+	public void refreshLogin(LoginMemento loginMemento) {
+		this.userLoginPanel.refreshUser(loginMemento);
+		this.passwordLoginPanel.deletePassword();
+	}
+	
 }

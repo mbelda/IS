@@ -12,6 +12,7 @@ import model.penalization.Penalization;
 import model.users.User;
 import view.ControllerObserver;
 import view.Observable;
+import view.login.LoginMemento;
 import data.DAOClassroom;
 import data.DAOLaboratory;
 import data.DAOMaterial;
@@ -26,7 +27,8 @@ public class Controller implements Observable<ControllerObserver> {
 	private DAOMaterial daoMaterial;
 	private DAOClassroom daoClass;
 	private DAOLaboratory daoLab;
-
+	private LoginMemento loginMemento;
+	
 	public Controller(List<User> users, List<Material> materials,
 			List<Laboratory> labs, List<Classroom> classroom) {
 		this.daoUsers = DAOUsers.getDaoUsers(users);
@@ -43,15 +45,22 @@ public class Controller implements Observable<ControllerObserver> {
 			daoUsersMemento = daoUsers.requestMemento();
 			daoUsers.restoreToMemento(daoUsersMemento);
 			user = daoUsers.getUserOfLastIndexLooked();
+
+			/* creamos un loginMemento en cuanto insertamos un usuario de verdad */
+			this.loginMemento = new LoginMemento(user.getId());
+			/*Siempre que se incurre en un fallo del login se vuelve al ultimo
+			 * usuario valido que se puso*/
 			if (user.getPassword().equals(password)) {
 				this.notifyMessage("login correct");
 				return user;
 			} else {
 				this.notifyError("incorrect password");
+				this.notifyLoginRefresh(loginMemento);
 				return null;
 			}
 		} else {
 			this.notifyError("username not found");
+			this.notifyLoginRefresh(loginMemento);
 			return null;
 		}
 	}
@@ -115,7 +124,7 @@ public class Controller implements Observable<ControllerObserver> {
 
 		if (!u.isPenalized()) {
 			f = stringToFecha(in.next());
-			
+
 			this.notifyMessage("Detalles de la penalizacion: ");
 			details = in.next();
 			this.notifyMessage("Causa de la penalizacion");
@@ -178,8 +187,7 @@ public class Controller implements Observable<ControllerObserver> {
 				this.notifyMessage("everything is ok...");
 				return true;
 			} else {
-				this.notifyError(material.getId()
-						+ " it's allready borrowed.");
+				this.notifyError(material.getId() + " it's allready borrowed.");
 				return false;
 			}
 
@@ -305,6 +313,12 @@ public class Controller implements Observable<ControllerObserver> {
 	private void notifyError(String msg) {
 		for (int i = 0; i < this.controllerObserverList.size(); i++) {
 			this.controllerObserverList.get(i).onPrintingErrorMessage(msg);
+		}
+	}
+
+	private void notifyLoginRefresh(LoginMemento loginMemento) {
+		for (int i = 0; i < this.controllerObserverList.size(); i++) {
+			this.controllerObserverList.get(i).refreshLogin(loginMemento);
 		}
 	}
 }

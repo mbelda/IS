@@ -11,6 +11,7 @@ import view.admin.AdminViewPanel.PenalizeButtonListener;
 import view.admin.AdminViewPanel.ReserveClassroomButtonListener;
 import view.admin.AdminViewPanel.ReserveLaboratoryButtonListener;
 import view.admin.AdminViewPanel.ReturnMaterialButtonListener;
+import view.login.LoginMemento;
 import view.login.LoginPanel.LoginButtonListener;
 import view.normal.CheckMaterialPanel.CheckMaterialButtonListener;
 
@@ -156,4 +157,11 @@ public class View implements ControllerObserver {
 	public void onPrintingErrorMessage(String message) {
 		System.err.println(message);
 	}
+
+	@Override
+	public void refreshLogin(LoginMemento loginMemento) {
+		this.gui.refreshLogin(loginMemento);
+	}
+	
+	
 }
