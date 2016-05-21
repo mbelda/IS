@@ -4,6 +4,13 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.List;
 
+import commands.Command;
+import commands.ExtractMaterialCommand;
+import commands.PenalizeCommand;
+import commands.ReservarClassroomCommand;
+import commands.ReservarLaboratoryCommand;
+import commands.ReturnMaterialCommand;
+import controller.ControllerImp;
 import model.material.Material;
 import model.users.User;
 import view.admin.AdminViewPanel.ExtractMaterialButtonListener;
@@ -15,23 +22,14 @@ import view.login.LoginMemento;
 import view.login.LoginPanel.LoginButtonListener;
 import view.normal.CheckMaterialPanel.CheckMaterialButtonListener;
 
-import commands.Command;
-import commands.ExtractMaterialCommand;
-import commands.PenalizeCommand;
-import commands.ReservarClassroomCommand;
-import commands.ReservarLaboratoryCommand;
-import commands.ReturnMaterialCommand;
-
-import controller.Controller;
-
 public class View implements ControllerObserver {
 
 	private User user = null;
 	private GUI gui;
-	Controller controller;
+	ControllerImp controller;
 	private List<Command> cmds;
 
-	public View(Controller controller) {
+	public View(ControllerImp controller) {
 		this.controller = controller;
 		this.controller.addObserver(this);
 		gui = new GUI(getLoginButtonListener());

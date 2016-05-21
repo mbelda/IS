@@ -3,9 +3,8 @@ package main;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import controller.Controller;
+import controller.ControllerImp;
 import model.material.Classroom;
 import model.material.Fecha;
 import model.material.Laboratory;
@@ -79,7 +78,7 @@ public class Main {
 		iniLabs();
 		iniClassrooms();
 		
-		Controller controller = new Controller(users, materials, labs, classrooms);
+		ControllerImp controller = new ControllerImp(users, materials, labs, classrooms);
 		View vista = new View(controller);
 	}
 	
