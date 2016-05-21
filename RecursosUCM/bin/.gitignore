@@ -1,5 +1,6 @@
-/view/
+/commands/
 /controller/
+/data/
 /main/
 /model/
-/commands/
+/view/

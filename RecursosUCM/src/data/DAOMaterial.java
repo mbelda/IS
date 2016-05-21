@@ -9,7 +9,7 @@ public class DAOMaterial {
 	private static DAOMaterial theDAOMaterial;
 	private List<Material> materials;
 
-	public DAOMaterial(List<Material> materials) {
+	private DAOMaterial(List<Material> materials) {
 		this.materials = materials;
 	}
 

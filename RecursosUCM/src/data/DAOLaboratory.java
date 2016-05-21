@@ -12,7 +12,7 @@ public class DAOLaboratory {
 	private static DAOLaboratory theDaoLab;
 	private List<Laboratory> labs;
 	
-	public DAOLaboratory(List <Laboratory> l ) {
+	private DAOLaboratory(List <Laboratory> l ) {
 		labs = l;
 	}
 	

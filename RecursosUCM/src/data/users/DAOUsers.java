@@ -13,7 +13,7 @@ public class DAOUsers {
 	private int lastIndexLooked;
 	
 
-	public DAOUsers(List<User> users) {
+	private DAOUsers(List<User> users) {
 		this.users = users;
 		this.lastIndexLooked = 0;
 	}

@@ -12,7 +12,7 @@ public class DAOClassroom {
 	private static DAOClassroom theDaoClass;
 	private List<Classroom> classrooms;
 	
-	public DAOClassroom(List <Classroom> l ) {
+	private DAOClassroom(List <Classroom> l ) {
 		classrooms = l;
 	}
 	
