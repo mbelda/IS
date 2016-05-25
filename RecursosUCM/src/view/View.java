@@ -21,7 +21,6 @@ import view.admin.AdminViewPanel.ReturnMaterialButtonListener;
 import view.login.LoginMemento;
 import view.login.LoginPanel.LoginButtonListener;
 import view.normal.CheckMaterialPanel.CheckMaterialButtonListener;
-import view.Observable;
 
 public class View implements ControllerObserver {
 
@@ -29,7 +28,6 @@ public class View implements ControllerObserver {
 	private GUI gui;
 	ControllerImp controller;
 	private List<Command> cmds;
-	private Observable observable1;
 
 	public View(ControllerImp controller) {
 		this.controller = controller;
