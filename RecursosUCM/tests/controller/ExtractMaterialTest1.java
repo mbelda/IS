@@ -1,15 +1,18 @@
 package controller;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import model.material.Material;
-import model.users.User;
-
 import org.junit.Before;
 import org.junit.Test;
+
+import data.DAOMaterial;
+import data.users.DAOUsers;
+import model.material.Material;
+import model.users.User;
 
 public class ExtractMaterialTest1 {
 
@@ -17,7 +20,10 @@ public class ExtractMaterialTest1 {
 	private static List<Material> materials = null;
 	private static List<User> fakeUsers;
 	private static List<Material> fakeMaterial;
-	private static Controller controller;
+	private static ControllerImp controller;
+	private static MaterialServicesImp materialServices;
+	private static DAOUsers daoUsers;
+	private static DAOMaterial daoMaterial;
 
 	private static void initMaterial() {
 		materials = new ArrayList<Material>();
@@ -32,13 +38,15 @@ public class ExtractMaterialTest1 {
 
 		fakeMaterial.add(new Material("Computer1"));
 		fakeMaterial.add(new Material("Computer2"));
-		
+
 		fakeMaterial.add(new Material("Computer3"));
-		
+
 		fakeMaterial.add(new Material("zomputer1"));
-		
+
 		fakeMaterial.add(new Material("zomputer2"));
 		fakeMaterial.add(new Material("zomputer3"));
+
+		daoMaterial = DAOMaterial.getDaoMaterial(materials);
 	}
 
 	/* default users in the system */
@@ -65,26 +73,30 @@ public class ExtractMaterialTest1 {
 		/* buen usuario mal material */
 		fakeUsers.add(new User("Javi", "pqr", false));
 		fakeUsers.add(new User("Juan", "mno", true));
+
+		daoUsers = DAOUsers.getDaoUsers(users);
 	}
 
 	@Before
 	public void prepareData() {
 		initUsers();
 		initMaterial();
-		controller = new Controller(users, materials, null, null);
+		controller = new ControllerImp(users, materials, null, null);
+		materialServices = new MaterialServicesImp(controller);
 	}
 
 	@Test
 	public void test() {
 		for (int i = 0; i < fakeMaterial.size(); i++) {
 			@SuppressWarnings("deprecation")
-			boolean test = controller.extractMaterialDebugMode1(
-					fakeUsers.get(i), fakeMaterial.get(i));
-			if(i <= 1)
+			boolean test = materialServices.extractMaterialDebugMode1(
+					fakeUsers.get(i), fakeMaterial.get(i), daoUsers,
+					daoMaterial);
+			if (i <= 1)
 				assertTrue(test);
 			else
 				assertFalse(test);
-				
+
 		}
 	}
 

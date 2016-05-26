@@ -13,7 +13,7 @@ import org.junit.Test;
 public class CheckMaterialTest1 {
 
 	private static List<User> users;
-	private static Controller controller;
+	private static ControllerImp controller;
 
 	/* default users in the system */
 	private static void initUsers() {
@@ -30,7 +30,7 @@ public class CheckMaterialTest1 {
 	@Before
 	public void prepareData() {
 		initUsers();
-		controller = new Controller(users, null, null, null);
+		controller = new ControllerImp(users, null, null, null);
 	}
 
 	@Test

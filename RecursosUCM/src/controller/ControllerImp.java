@@ -42,6 +42,7 @@ public class ControllerImp implements Controller, Observable<ControllerObserver>
 		this.usi = new UserServicesImp(this);
 		this.msi = new MaterialServicesImp(this);
 		this.bsi = new BookingServicesImp(this);
+		this.controllerObserverList = new ArrayList<>();
 	}
 	
 	@Override

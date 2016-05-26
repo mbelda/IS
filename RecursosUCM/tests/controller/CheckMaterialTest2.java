@@ -56,7 +56,7 @@ public class CheckMaterialTest2 {
 		initMaterial();
 		initUsers();
 
-		controller = new Controller(users, materials, null, null);
+		controller = new ControllerImp(users, materials, null, null);
 	}
 
 	@Test
