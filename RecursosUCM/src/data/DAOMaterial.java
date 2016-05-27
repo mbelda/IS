@@ -2,7 +2,6 @@ package data;
 
 import java.util.List;
 
-import model.material.Classroom;
 import model.material.Material;
 
 public class DAOMaterial {

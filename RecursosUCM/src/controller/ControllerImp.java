@@ -79,8 +79,7 @@ public class ControllerImp implements Controller, Observable<ControllerObserver>
 
 	@Override
 	public List<Material> checkMaterial(User user) {
-		// TODO Auto-generated method stub
-		return null;
+		return user.getBorrowedMaterials();
 	}
 
 	@Override

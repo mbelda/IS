@@ -79,7 +79,7 @@ public class Main {
 		iniClassrooms();
 		
 		ControllerImp controller = new ControllerImp(users, materials, labs, classrooms);
-		View vista = new View(controller);
+		new View(controller);
 	}
 	
 	

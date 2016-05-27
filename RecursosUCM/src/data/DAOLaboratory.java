@@ -3,9 +3,8 @@ package data;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.material.Classroom;
-import model.material.Laboratory;
 import model.material.Fecha;
+import model.material.Laboratory;
 
 public class DAOLaboratory {
 	

@@ -16,6 +16,7 @@ public class User {
 	private static final int MAX_MATERIALS = 10;
 	private int lastIndexLooked;
 	private Penalization penalization;
+	@SuppressWarnings("unused")
 	private boolean isPenalized;
 
 	public User(String id, String password, boolean isAdmin) {

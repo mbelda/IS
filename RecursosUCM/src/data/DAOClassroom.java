@@ -5,7 +5,6 @@ import java.util.List;
 
 import model.material.Classroom;
 import model.material.Fecha;
-import model.material.Laboratory;
 
 public class DAOClassroom {
 	

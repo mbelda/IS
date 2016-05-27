@@ -2,8 +2,6 @@ package data.users;
 
 import java.util.List;
 
-import data.DAOClassroom;
-import model.material.Classroom;
 import model.users.User;
 
 public class DAOUsers {
